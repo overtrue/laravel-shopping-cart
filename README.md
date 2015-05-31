@@ -1,2 +1,4 @@
-# laravel-shopping-cart
+# Laravel Shopping Cart
+
 Shopping cart for Laravel Application.
+

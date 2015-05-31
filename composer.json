@@ -1,0 +1,23 @@
+{
+    "name": "overtrue/laravel-shopping-cart",
+    "description": "Shopping cart for Laravel Application.",
+    "keywords": [
+        "shoppingcart",
+        "shopping",
+        "laravel"
+    ],
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "autoload": {
+        "psr-4": {
+            "Overtrue\\LaravelShoppingCart\\": "src/LaravelShoppingCart/"
+        }
+    }
+}
