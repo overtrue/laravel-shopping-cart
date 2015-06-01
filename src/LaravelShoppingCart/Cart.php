@@ -478,7 +478,7 @@ class Cart
      * @param string $rowId The ID of the row
      * @param int    $qty   The qty to add
      *
-     * @return Item | void | boolean
+     * @return Item | boolean
      */
     protected function updateQty($rowId, $qty)
     {
