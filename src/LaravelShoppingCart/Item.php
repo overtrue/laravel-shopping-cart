@@ -51,4 +51,14 @@ class Item extends Collection
 
         return null;
     }
+
+    /**
+     * Return the raw ID of item.
+     *
+     * @return string
+     */
+    public function rawId()
+    {
+        return $this->__raw_id;
+    }
 } //end class

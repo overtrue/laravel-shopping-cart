@@ -41,13 +41,28 @@ And add the follow line to the section `aliases`:
 **syntax:**
 
 ```php
-string | null Cart::add(string | int $id, string $name, int $quantity, int | float 100.00 [, array $attributes = []]);
+string | null Cart::add(
+                    string | int $id,
+                    string $name,
+                    int $quantity,
+                    int | float $price
+                    [, array $attributes = []]
+                 );
 ```
 
 **example:**
 
 ```php
-$rawId = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red']);
+$rawId = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+// Item:
+//    id       => 37
+//    name     => 'Item name'
+//    qty      => 5
+//    price    => 100.00
+//    color    => 'red'
+//    size     => 'M'
+//    total    => 500.00
+//    __raw_id => '8a48aa7c8e5202841ddaf767bb4d10da'
 ```
 
 ### Update item
@@ -215,13 +230,17 @@ $item->product->name; // $item->product is instanceof 'App\Models\Product'
 
 properties of `Overtrue\LaravelShoppingCart\Item`:
 
-- `id` - your goods item ID.
-- `name` - Name of item.
-- `qty` - Quantity of item.
-- `price` - Unit price of item.
-- `total` - Total price of item.
+- `id`       - your goods item ID.
+- `name`     - Name of item.
+- `qty`      - Quantity of item.
+- `price`    - Unit price of item.
+- `total`    - Total price of item.
 - `__raw_id` - Unique ID of row.
-- `__model` - Name of item associated Model.
+- `__model`  - Name of item associated Model.
+
+And methods:
+
+ - `rawId()` - Return the raw ID of item.
 
 ## License
 
