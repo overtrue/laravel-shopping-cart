@@ -185,7 +185,9 @@ class Cart
 
         $this->event->fire('cart.removed', [$row, $cart]);
 
-        return $this->syncCart($cart);
+        $this->syncCart($cart);
+
+        return true;
     }
 
     /**
