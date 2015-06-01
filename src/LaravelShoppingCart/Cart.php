@@ -84,16 +84,16 @@ class Cart
     /**
      * Associated model.
      *
-     * @param string $modelName The name of the model
+     * @param string $model The name of the model
      *
      * @return Cart
      */
-    public function associate($modelName)
+    public function associate($model)
     {
-        $this->associatedModel = $modelName;
+        $this->model = $model;
 
-        if (!class_exists($modelName)) {
-            throw new Exception('Invalid model name.');
+        if (!class_exists($model)) {
+            throw new Exception("Invalid model name '$model'.");
         }
 
         return $this;
@@ -112,50 +112,25 @@ class Cart
     /**
      * Add a row to the cart
      *
-     * @param string|array $id         Unique ID of the item|Item formated as array|Array of items
+     * @param int | string $id         Unique ID of the item
      * @param string       $name       Name of the item
      * @param int          $qty        Item qty to add to the cart
      * @param float        $price      Price of one item
-     * @param array        $attributes Array of additional options, such as 'size' or 'color'
+     * @param array        $attributes Array of additional attributes, such as 'size' or 'color'...
      *
      * @return mixed
      */
     public function add($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
-        // If the first parameter is an array we need to call the add() function again
-        if (is_array($id)) {
-            // And if it's not only an array, but a multidimensional array, we need to
-            // recursively call the add function
-            if (is_array(head($id))) {
-                $this->event->fire('cart.batch', $id);
+        $attributes = array_merge(compact('id', 'name', 'qty', 'price'), $attributes);
 
-                foreach ($id as $item) {
-                    $attributes = array_get($item, 'options', []);
-                    $this->addRow($item['id'], $item['name'], $item['qty'], $item['price'], $attributes);
-                }
+        $cart = $this->getCart();
 
-                $this->event->fire('cart.batched', $id);
-
-                return;
-            }
-
-            $attributes = array_get($id, 'options', []);
-
-            $this->event->fire('cart.add', array_merge($id, ['options' => $attributes]));
-
-            $row = $this->addRow($id['id'], $id['name'], $id['qty'], $id['price'], $attributes);
-
-            $this->event->fire('cart.added', array_merge($id, ['options' => $attributes]));
-
-            return $raw->id;
-        }
-
-
-        $this->event->fire('cart.add', compact('id', 'name', 'qty', 'price', 'options'));
+        $this->event->fire('cart.add', [$attributes, $cart]);
 
         $rawId = $this->addRow($id, $name, $qty, $price, $attributes);
 
-        $this->event->fire('cart.added', compact('id', 'name', 'qty', 'price', 'options'));
+        $this->event->fire('cart.added', [$attributes, $cart]);
 
         return $rawId;
     }
@@ -170,11 +145,13 @@ class Cart
      */
     public function update($rowId, $attribute)
     {
-        if (!$this->hasRow($rowId)) {
+        if (!$row = $this->get($rowId)) {
             throw new Exception('Item not found.');
         }
 
-        $this->event->fire('cart.update', $rowId);
+        $cart = $this->getCart();
+
+        $this->event->fire('cart.update', [$row, $cart]);
 
         if (is_array($attribute)) {
             $raw = $this->updateAttribute($rowId, $attribute);
@@ -182,7 +159,7 @@ class Cart
             $raw = $this->updateQty($rowId, $attribute);
         }
 
-        $this->event->fire('cart.updated', $rowId);
+        $this->event->fire('cart.updated', [$row, $cart]);
 
         return $raw;
     }
@@ -202,11 +179,11 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.remove', $rowId);
+        $this->event->fire('cart.remove', [$rowId, $cart]);
 
         $cart->forget($rowId);
 
-        $this->event->fire('cart.removed', $rowId);
+        $this->event->fire('cart.removed', [$rowId, $cart]);
 
         return $this->syncCart($cart);
     }
