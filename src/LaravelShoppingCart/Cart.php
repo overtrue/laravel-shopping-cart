@@ -72,7 +72,7 @@ class Cart
      *
      * @return Cart
      */
-    public function make($name)
+    public function name($name)
     {
         $this->name = 'cart.' . $name;
 
@@ -141,11 +141,11 @@ class Cart
 
             $this->event->fire('cart.add', array_merge($id, ['options' => $options]));
 
-            $rawId = $this->addRow($id['id'], $id['name'], $id['qty'], $id['price'], $options);
+            $row = $this->addRow($id['id'], $id['name'], $id['qty'], $id['price'], $options);
 
             $this->event->fire('cart.added', array_merge($id, ['options' => $options]));
 
-            return $rawId;
+            return $raw->id;
         }
 
 
@@ -161,7 +161,7 @@ class Cart
     /**
      * Update the quantity of one row of the cart
      *
-     * @param string    $rowId     The row_id of the item you want to update
+     * @param string    $rowId     The __raw_id of the item you want to update
      * @param int|array $attribute New quantity of the item|Array of attributes to update
      *
      * @return Item
@@ -188,7 +188,7 @@ class Cart
     /**
      * Remove a row from the cart
      *
-     * @param string $rowId The row_id of the item
+     * @param string $rowId The __raw_id of the item
      *
      * @return boolean
      */
@@ -284,6 +284,16 @@ class Cart
     }
 
     /**
+     * Get rows count
+     *
+     * @return int
+     */
+    public function countRows()
+    {
+        return $this->count(false);
+    }
+
+    /**
      * Search if the cart has a item
      *
      * @param array $search An array with the item ID and optional options
@@ -296,11 +306,11 @@ class Cart
             return [];
         }
 
-        $rows = [];
+        $rows = new Collection();
 
         foreach ($this->getCart() as $item) {
             if (count($item->intersect($search)) == count($search)) {
-                $rows[] = new Item($row);
+                $rows->put($item->__raw_id, $item);
             }
         }
 
@@ -330,15 +340,15 @@ class Cart
 
         $cart = $this->getCart();
 
-        $rowId = $this->generateRowId($id, $options);
+        $rowId = $this->generateRawId($id, $options);
 
         if ($row = $cart->get($rowId)) {
-            $cart = $this->updateQty($rowId, $row->qty + $qty);
+            $row = $this->updateQty($rowId, $row->qty + $qty);
         } else {
-            $cart = $this->insertRow($rowId, $id, $name, $qty, $price, $options);
+            $row = $this->insertRow($rowId, $id, $name, $qty, $price, $options);
         }
 
-        return $this->syncCart($cart);
+        return $row;
     }
 
     /**
@@ -349,7 +359,7 @@ class Cart
      *
      * @return string
      */
-    protected function generateRowId($id, $options)
+    protected function generateRawId($id, $options)
     {
         ksort($options);
 
@@ -357,7 +367,7 @@ class Cart
     }
 
     /**
-     * Check if a row_id exists in the current cart name
+     * Check if a __raw_id exists in the current cart name
      *
      * @param string $rowId Unique ID of the item
      *
@@ -375,7 +385,7 @@ class Cart
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function syncCart(Collection $cart)
+    protected function syncCart($cart)
     {
         $this->session->put($this->name, $cart);
 
@@ -437,7 +447,11 @@ class Cart
     {
         $newRow = $this->makeRow($rowId, $id, $name, $qty, $price, $options);
 
-        $this->getCart()->put($rowId, $newRow);
+        $cart = $this->getCart();
+
+        $cart->put($rowId, $newRow);
+
+        $this->syncCart($cart);
 
         return $newRow;
     }
@@ -457,13 +471,13 @@ class Cart
     protected function makeRow($rowId, $id, $name, $qty, $price, array $options = [])
     {
         return new Item(array_merge([
-            'row_id'  => $rowId,
-            'id'      => $id,
-            'name'    => $name,
-            'qty'     => $qty,
-            'price'   => $price,
-            'total'   => $qty * $price,
-            '__model' => $this->model,
+                                     '__raw_id' => $rowId,
+                                     'id'       => $id,
+                                     'name'     => $name,
+                                     'qty'      => $qty,
+                                     'price'    => $price,
+                                     'total'    => $qty * $price,
+                                     '__model'  => $this->model,
                                     ], $options));
     }
 
