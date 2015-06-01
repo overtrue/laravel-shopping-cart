@@ -7,6 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+ * Adapted from https://github.com/Crinsane/LaravelShoppingcart
+ *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  * @link      https://github.com/overtrue
@@ -47,14 +49,14 @@ class Cart
     protected $name = 'cart.default';
 
     /**
-     * The Eloquent model a cart is associated with
+     * Associated model name.
      *
      * @var string
      */
     protected $model;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Illuminate\Session\SessionManager      $session Session class name
      * @param \Illuminate\Contracts\Events\Dispatcher $event   Event class name
@@ -80,7 +82,7 @@ class Cart
     }
 
     /**
-     * associated model
+     * Associated model.
      *
      * @param string $modelName The name of the model
      *
