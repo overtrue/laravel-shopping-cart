@@ -38,6 +38,8 @@ And add the follow line to the section `aliases`:
 
 ### Add item to cart
 
+Add a new item.
+
 **syntax:**
 
 ```php
@@ -67,6 +69,8 @@ $rawId = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']
 
 ### Update item
 
+Update the specified item.
+
 **syntax:**
 
 ```php
@@ -84,6 +88,8 @@ Cart::update('8a48aa7c8e5202841ddaf767bb4d10da', 5);
 
 ### Get all items
 
+Get all the items.
+
 **syntax:**
 
 ```php
@@ -99,6 +105,8 @@ $items = Cart::all();
 
 ### Get item
 
+Get the specified item.
+
 **syntax:**
 
 ```php
@@ -112,6 +120,8 @@ $item = Cart::get('8a48aa7c8e5202841ddaf767bb4d10da');
 ```
 
 ### Remove item
+
+Remove the specified item by raw ID.
 
 **syntax:**
 
@@ -127,6 +137,8 @@ Cart::remove('8a48aa7c8e5202841ddaf767bb4d10da');
 
 ### Destroy cart
 
+Empty Shopping Cart.
+
 **syntax:**
 
 ```php
@@ -140,6 +152,8 @@ Cart::destroy();
 ```
 
 ### Total price
+
+Returns the total of all items.
 
 **syntax:**
 
@@ -156,7 +170,7 @@ $total = Cart::total();
 
 ### Count rows
 
-return the number of rows.
+Return the number of rows.
 
 **syntax:**
 
@@ -172,6 +186,8 @@ $rows = Cart::countRows();
 
 
 ### Count quantity
+
+Returns the number of all items
 
 **syntax:**
 
@@ -189,6 +205,8 @@ $rows = Cart::count(false); // same as Cart::countRows();
 ```
 
 ### Search items
+
+Search items by property.
 
 **syntax:**
 
