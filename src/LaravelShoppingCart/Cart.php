@@ -413,7 +413,7 @@ class Cart
             $row->put($key, $value);
         }
 
-        if (!empty(array_intersect(array_keys($attributes), ['qty', 'price']))) {
+        if (count(array_intersect(array_keys($attributes), ['qty', 'price']))) {
             $row->put('total', $row->qty * $row->price);
         }
 
