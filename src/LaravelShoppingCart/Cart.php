@@ -112,11 +112,11 @@ class Cart
     /**
      * Add a row to the cart
      *
-     * @param int | string $id         Unique ID of the item
-     * @param string       $name       Name of the item
-     * @param int          $qty        Item qty to add to the cart
-     * @param float        $price      Price of one item
-     * @param array        $attributes Array of additional attributes, such as 'size' or 'color'...
+     * @param int|string $id         Unique ID of the item
+     * @param string     $name       Name of the item
+     * @param int        $qty        Item qty to add to the cart
+     * @param float      $price      Price of one item
+     * @param array      $attributes Array of additional attributes, such as 'size' or 'color'...
      *
      * @return string
      */
@@ -141,7 +141,7 @@ class Cart
      * @param string    $rowId     The __raw_id of the item you want to update
      * @param int|array $attribute New quantity of the item|Array of attributes to update
      *
-     * @return Item
+     * @return Item|boolean
      */
     public function update($rowId, $attribute)
     {
@@ -372,7 +372,7 @@ class Cart
     /**
      * Sync the cart to session.
      *
-     * @param \Illuminate\Support\Collection | null $cart The new cart content
+     * @param \Illuminate\Support\Collection|null $cart The new cart content
      *
      * @return \Illuminate\Support\Collection
      */
