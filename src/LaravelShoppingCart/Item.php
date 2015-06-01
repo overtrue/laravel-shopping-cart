@@ -43,8 +43,15 @@ class Item extends Collection
             return $this->get($property);
         }
 
-        if ($property == strtolower($this->get('__model'))) {
-            $model = new $this->get('__model');
+        if (!$this->get('__model')) {
+            return null;
+        }
+
+        $model = $this->get('__model');
+        $class = explode('\\', $model);
+
+        if (strtolower(end($class)) == $property) {
+            $model = new $model;
 
             return $model->find($this->id);
         }

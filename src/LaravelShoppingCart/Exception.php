@@ -15,12 +15,12 @@
 
 namespace Overtrue\LaravelShoppingCart;
 
-use Exception;
+use Exception as BaseException;
 
 /**
  * Exception of Overtrue\LaravelShoppingCart package.
  */
-class Exception extends Exception
+class Exception extends BaseException
 {
 
 }//end class

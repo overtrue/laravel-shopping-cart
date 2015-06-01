@@ -118,7 +118,7 @@ class Cart
      * @param float        $price      Price of one item
      * @param array        $attributes Array of additional attributes, such as 'size' or 'color'...
      *
-     * @return mixed
+     * @return string
      */
     public function add($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
@@ -128,11 +128,11 @@ class Cart
 
         $this->event->fire('cart.add', [$attributes, $cart]);
 
-        $rawId = $this->addRow($id, $name, $qty, $price, $attributes);
+        $row = $this->addRow($id, $name, $qty, $price, $attributes);
 
         $this->event->fire('cart.added', [$attributes, $cart]);
 
-        return $rawId;
+        return $row;
     }
 
     /**
@@ -173,17 +173,17 @@ class Cart
      */
     public function remove($rowId)
     {
-        if (!$this->hasRow($rowId)) {
+        if (!$row = $this->get($rowId)) {
             return true;
         }
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.remove', [$rowId, $cart]);
+        $this->event->fire('cart.remove', [$row, $cart]);
 
         $cart->forget($rowId);
 
-        $this->event->fire('cart.removed', [$rowId, $cart]);
+        $this->event->fire('cart.removed', [$row, $cart]);
 
         return $this->syncCart($cart);
     }
@@ -197,7 +197,9 @@ class Cart
      */
     public function get($rowId)
     {
-        return new Item($this->getCart()->get($rowId));
+        $row = $this->getCart()->get($rowId);
+
+        return is_null($row) ? null : new Item($row);
     }
 
     /**
@@ -227,7 +229,7 @@ class Cart
 
         $cart = $this->getCart();
 
-        if (empty($cart)) {
+        if ($cart->isEmpty()) {
             return $total;
         }
 
@@ -281,19 +283,39 @@ class Cart
      */
     public function search(array $search)
     {
-        if (empty($search)) {
-            return [];
-        }
-
         $rows = new Collection();
 
+        if (empty($search)) {
+            return $rows;
+        }
+
         foreach ($this->getCart() as $item) {
-            if (count($item->intersect($search)) == count($search)) {
+            if (array_intersect_assoc($item->intersect($search)->toArray(), $search)) {
                 $rows->put($item->__raw_id, $item);
             }
         }
 
         return $rows;
+    }
+
+    /**
+     * Get current cart name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get current associated model
+     *
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 
     /**
@@ -309,11 +331,11 @@ class Cart
      */
     protected function addRow($id, $name, $qty, $price, array $attributes = [])
     {
-        if (!is_numeric($qty)) {
+        if (!is_numeric($qty) || $qty < 1) {
             throw new Exception('Invalid quantity.');
         }
 
-        if (!is_numeric($price)) {
+        if (!is_numeric($price) || $price < 0) {
             throw new Exception('Invalid price.');
         }
 
@@ -343,18 +365,6 @@ class Cart
         ksort($attributes);
 
         return md5($id . serialize($attributes));
-    }
-
-    /**
-     * Check if a __raw_id exists in the current cart name
-     *
-     * @param string $rowId Unique ID of the item
-     *
-     * @return boolean
-     */
-    protected function hasRow($rowId)
-    {
-        return $this->getCart()->has($rowId);
     }
 
     /**
@@ -401,7 +411,7 @@ class Cart
             $row->put($key, $value);
         }
 
-        if (!empty(array_keys($attributes, ['qty', 'price']))) {
+        if (!empty(array_intersect(array_keys($attributes), ['qty', 'price']))) {
             $row->put('total', $row->qty * $row->price);
         }
 
