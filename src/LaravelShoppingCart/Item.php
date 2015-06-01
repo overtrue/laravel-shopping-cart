@@ -19,6 +19,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Shopping cart item.
+ *
+ * @property int|string $id
  */
 class Item extends Collection
 {
