@@ -2,7 +2,7 @@
 
 Shopping cart for Laravel Application.
 
-# Installation
+## Installation
 
 ```shell
 composer require "overtrue/laravel-shopping-cart:dev-master"
