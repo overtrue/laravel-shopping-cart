@@ -37,7 +37,7 @@ class Cart
     /**
      * Event dispatcher
      *
-     * @var \Illuminate\Events\Dispatcher
+     * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $event;
 
@@ -211,11 +211,11 @@ class Cart
     {
         $this->event->fire('cart.destroy', $this->name);
 
-        $result = $this->syncCart(null);
+        $this->syncCart(null);
 
         $this->event->fire('cart.destroyed', $this->name);
 
-        return $result;
+        return true;
     }
 
     /**
@@ -476,7 +476,7 @@ class Cart
      * @param string $rowId The ID of the row
      * @param int    $qty   The qty to add
      *
-     * @return Item
+     * @return Item | void | boolean
      */
     protected function updateQty($rowId, $qty)
     {
