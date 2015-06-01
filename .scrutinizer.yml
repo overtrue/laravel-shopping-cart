@@ -19,7 +19,8 @@ filter:
 
 build:
     dependencies:
-        before: composer selfupdate && composer install
+        before:
+            - composer selfupdate && composer install
     tests:
         override:
             -
