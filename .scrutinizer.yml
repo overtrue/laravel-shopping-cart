@@ -20,7 +20,7 @@ filter:
 build:
     dependencies:
         before:
-            - composer selfupdate && composer install
+            - sudo composer selfupdate && composer install
     tests:
         override:
             -
