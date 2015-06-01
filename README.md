@@ -244,7 +244,7 @@ $item->product->name; // $item->product is instanceof 'App\Models\Product'
 
 ## the Collection And Item
 
-`Collection` and `Overtrue\LaravelShoppingCart\Item` both are instanceof `Illuminate\Support\Collection`, Usage Refer to：[Collections - Laravel doc.](http://laravel.com/docs/5.0/collections)
+`Collection` and `Overtrue\LaravelShoppingCart\Item` are instanceof `Illuminate\Support\Collection`, Usage Refer to：[Collections - Laravel doc.](http://laravel.com/docs/5.0/collections)
 
 properties of `Overtrue\LaravelShoppingCart\Item`:
 
