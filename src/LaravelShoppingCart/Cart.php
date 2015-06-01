@@ -372,7 +372,7 @@ class Cart
     /**
      * Sync the cart to session.
      *
-     * @param array $cart The new cart content
+     * @param \Illuminate\Support\Collection | null $cart The new cart content
      *
      * @return \Illuminate\Support\Collection
      */
@@ -398,12 +398,12 @@ class Cart
     /**
      * Update a row if the rowId already exists.
      *
-     * @param string    $rowId      The ID of the row to update
-     * @param int|array $attributes The quantity to add to the row
+     * @param string $rowId      The ID of the row to update
+     * @param array  $attributes The quantity to add to the row
      *
      * @return Item
      */
-    protected function updateRow($rowId, $attributes)
+    protected function updateRow($rowId, array $attributes)
     {
         $cart = $this->getCart();
 
@@ -478,7 +478,7 @@ class Cart
      * @param string $rowId The ID of the row
      * @param int    $qty   The qty to add
      *
-     * @return Item | boolean
+     * @return Item|boolean
      */
     protected function updateQty($rowId, $qty)
     {
