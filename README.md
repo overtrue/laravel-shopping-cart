@@ -2,6 +2,15 @@
 
 Shopping cart for Laravel Application.
 
+
+[![Build Status](https://travis-ci.org/overtrue/laravel-shopping-cart.svg?branch=master)](https://travis-ci.org/overtrue/laravel-shopping-cart)
+[![Latest Stable Version](https://poser.pugx.org/overtrue/laravel-shopping-cart/v/stable.svg)](https://packagist.org/packages/overtrue/laravel-shopping-cart)
+[![Latest Unstable Version](https://poser.pugx.org/overtrue/laravel-shopping-cart/v/unstable.svg)](https://packagist.org/packages/overtrue/laravel-shopping-cart)
+[![Build Status](https://scrutinizer-ci.com/g/overtrue/laravel-shopping-cart/badges/build.png?b=master)](https://scrutinizer-ci.com/g/overtrue/laravel-shopping-cart/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/laravel-shopping-cart/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/laravel-shopping-cart/?branch=master)
+[![Total Downloads](https://poser.pugx.org/overtrue/laravel-shopping-cart/downloads)](https://packagist.org/packages/overtrue/laravel-shopping-cart)
+[![License](https://poser.pugx.org/overtrue/laravel-shopping-cart/license)](https://packagist.org/packages/overtrue/wechat)
+
 ## Installation
 
 ```shell
