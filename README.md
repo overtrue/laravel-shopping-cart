@@ -12,7 +12,7 @@ composer require "overtrue/laravel-shopping-cart:dev-master"
 
 ```json
 "require": {
-    "overtrue/laravel-lang": "dev-master"
+    "overtrue/laravel-shopping-cart": "dev-master"
 }
 ```
 

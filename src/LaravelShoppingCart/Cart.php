@@ -228,11 +228,11 @@ class Cart
      */
     public function destroy()
     {
-        $this->event->fire('cart.destroy');
+        $this->event->fire('cart.destroy', $this->name);
 
         $result = $this->syncCart(null);
 
-        $this->event->fire('cart.destroyed');
+        $this->event->fire('cart.destroyed', $this->name);
 
         return $result;
     }
