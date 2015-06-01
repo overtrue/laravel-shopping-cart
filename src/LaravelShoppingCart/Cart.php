@@ -110,15 +110,15 @@ class Cart
     /**
      * Add a row to the cart
      *
-     * @param string|array $id      Unique ID of the item|Item formated as array|Array of items
-     * @param string       $name    Name of the item
-     * @param int          $qty     Item qty to add to the cart
-     * @param float        $price   Price of one item
-     * @param array        $options Array of additional options, such as 'size' or 'color'
+     * @param string|array $id         Unique ID of the item|Item formated as array|Array of items
+     * @param string       $name       Name of the item
+     * @param int          $qty        Item qty to add to the cart
+     * @param float        $price      Price of one item
+     * @param array        $attributes Array of additional options, such as 'size' or 'color'
      *
      * @return mixed
      */
-    public function add($id, $name = null, $qty = null, $price = null, array $options = [])
+    public function add($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
         // If the first parameter is an array we need to call the add() function again
         if (is_array($id)) {
@@ -128,8 +128,8 @@ class Cart
                 $this->event->fire('cart.batch', $id);
 
                 foreach ($id as $item) {
-                    $options = array_get($item, 'options', []);
-                    $this->addRow($item['id'], $item['name'], $item['qty'], $item['price'], $options);
+                    $attributes = array_get($item, 'options', []);
+                    $this->addRow($item['id'], $item['name'], $item['qty'], $item['price'], $attributes);
                 }
 
                 $this->event->fire('cart.batched', $id);
@@ -137,13 +137,13 @@ class Cart
                 return;
             }
 
-            $options = array_get($id, 'options', []);
+            $attributes = array_get($id, 'options', []);
 
-            $this->event->fire('cart.add', array_merge($id, ['options' => $options]));
+            $this->event->fire('cart.add', array_merge($id, ['options' => $attributes]));
 
-            $row = $this->addRow($id['id'], $id['name'], $id['qty'], $id['price'], $options);
+            $row = $this->addRow($id['id'], $id['name'], $id['qty'], $id['price'], $attributes);
 
-            $this->event->fire('cart.added', array_merge($id, ['options' => $options]));
+            $this->event->fire('cart.added', array_merge($id, ['options' => $attributes]));
 
             return $raw->id;
         }
@@ -151,7 +151,7 @@ class Cart
 
         $this->event->fire('cart.add', compact('id', 'name', 'qty', 'price', 'options'));
 
-        $rawId = $this->addRow($id, $name, $qty, $price, $options);
+        $rawId = $this->addRow($id, $name, $qty, $price, $attributes);
 
         $this->event->fire('cart.added', compact('id', 'name', 'qty', 'price', 'options'));
 
@@ -320,15 +320,15 @@ class Cart
     /**
      * Add row to the cart
      *
-     * @param string $id      Unique ID of the item
-     * @param string $name    Name of the item
-     * @param int    $qty     Item qty to add to the cart
-     * @param float  $price   Price of one item
-     * @param array  $options Array of additional options, such as 'size' or 'color'
+     * @param string $id         Unique ID of the item
+     * @param string $name       Name of the item
+     * @param int    $qty        Item qty to add to the cart
+     * @param float  $price      Price of one item
+     * @param array  $attributes Array of additional options, such as 'size' or 'color'
      *
      * @return string
      */
-    protected function addRow($id, $name, $qty, $price, array $options = [])
+    protected function addRow($id, $name, $qty, $price, array $attributes = [])
     {
         if (!is_numeric($qty)) {
             throw new Exception('Invalid quantity.');
@@ -340,12 +340,12 @@ class Cart
 
         $cart = $this->getCart();
 
-        $rowId = $this->generateRawId($id, $options);
+        $rowId = $this->generateRawId($id, $attributes);
 
         if ($row = $cart->get($rowId)) {
             $row = $this->updateQty($rowId, $row->qty + $qty);
         } else {
-            $row = $this->insertRow($rowId, $id, $name, $qty, $price, $options);
+            $row = $this->insertRow($rowId, $id, $name, $qty, $price, $attributes);
         }
 
         return $row;
@@ -354,16 +354,16 @@ class Cart
     /**
      * Generate a unique id for the new row
      *
-     * @param string $id      Unique ID of the item
-     * @param array  $options Array of additional options, such as 'size' or 'color'
+     * @param string $id         Unique ID of the item
+     * @param array  $attributes Array of additional options, such as 'size' or 'color'
      *
      * @return string
      */
-    protected function generateRawId($id, $options)
+    protected function generateRawId($id, $attributes)
     {
-        ksort($options);
+        ksort($attributes);
 
-        return md5($id . serialize($options));
+        return md5($id . serialize($attributes));
     }
 
     /**
@@ -434,18 +434,18 @@ class Cart
     /**
      * Create a new row Object.
      *
-     * @param string $rowId   The ID of the new row
-     * @param string $id      Unique ID of the item
-     * @param string $name    Name of the item
-     * @param int    $qty     Item qty to add to the cart
-     * @param float  $price   Price of one item
-     * @param array  $options Array of additional options, such as 'size' or 'color'
+     * @param string $rowId      The ID of the new row
+     * @param string $id         Unique ID of the item
+     * @param string $name       Name of the item
+     * @param int    $qty        Item qty to add to the cart
+     * @param float  $price      Price of one item
+     * @param array  $attributes Array of additional options, such as 'size' or 'color'
      *
      * @return Item
      */
-    protected function insertRow($rowId, $id, $name, $qty, $price, $options = [])
+    protected function insertRow($rowId, $id, $name, $qty, $price, $attributes = [])
     {
-        $newRow = $this->makeRow($rowId, $id, $name, $qty, $price, $options);
+        $newRow = $this->makeRow($rowId, $id, $name, $qty, $price, $attributes);
 
         $cart = $this->getCart();
 
@@ -459,16 +459,16 @@ class Cart
     /**
      * Make a row item.
      *
-     * @param string $rowId   Raw id.
-     * @param mixed  $id      Item id.
-     * @param string $name    Item name.
-     * @param int    $qty     Quantity.
-     * @param float  $price   Price.
-     * @param array  $options Other attributes.
+     * @param string $rowId      Raw id.
+     * @param mixed  $id         Item id.
+     * @param string $name       Item name.
+     * @param int    $qty        Quantity.
+     * @param float  $price      Price.
+     * @param array  $attributes Other attributes.
      *
      * @return Item
      */
-    protected function makeRow($rowId, $id, $name, $qty, $price, array $options = [])
+    protected function makeRow($rowId, $id, $name, $qty, $price, array $attributes = [])
     {
         return new Item(array_merge([
                                      '__raw_id' => $rowId,
@@ -478,7 +478,7 @@ class Cart
                                      'price'    => $price,
                                      'total'    => $qty * $price,
                                      '__model'  => $this->model,
-                                    ], $options));
+                                    ], $attributes));
     }
 
     /**

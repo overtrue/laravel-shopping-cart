@@ -32,4 +32,4 @@ class Facade extends LaravelFacade
     {
         return 'cart';
     }
-} //end class
+}//end class

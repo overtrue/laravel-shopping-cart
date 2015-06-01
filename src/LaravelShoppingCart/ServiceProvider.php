@@ -34,4 +34,4 @@ class ServiceProvider extends LaravelServiceProvider
             return new Cart($app['session'], $app['events']);
         });
     }
-} //end class
+}//end class
