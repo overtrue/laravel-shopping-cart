@@ -138,14 +138,14 @@ class Cart
     /**
      * Update the quantity of one row of the cart
      *
-     * @param string    $rowId     The __raw_id of the item you want to update
+     * @param string    $rawId     The __raw_id of the item you want to update
      * @param int|array $attribute New quantity of the item|Array of attributes to update
      *
      * @return Item|boolean
      */
-    public function update($rowId, $attribute)
+    public function update($rawId, $attribute)
     {
-        if (!$row = $this->get($rowId)) {
+        if (!$row = $this->get($rawId)) {
             throw new Exception('Item not found.');
         }
 
@@ -154,9 +154,9 @@ class Cart
         $this->event->fire('cart.updating', [$row, $cart]);
 
         if (is_array($attribute)) {
-            $raw = $this->updateAttribute($rowId, $attribute);
+            $raw = $this->updateAttribute($rawId, $attribute);
         } else {
-            $raw = $this->updateQty($rowId, $attribute);
+            $raw = $this->updateQty($rawId, $attribute);
         }
 
         $this->event->fire('cart.updated', [$row, $cart]);
@@ -167,13 +167,13 @@ class Cart
     /**
      * Remove a row from the cart
      *
-     * @param string $rowId The __raw_id of the item
+     * @param string $rawId The __raw_id of the item
      *
      * @return boolean
      */
-    public function remove($rowId)
+    public function remove($rawId)
     {
-        if (!$row = $this->get($rowId)) {
+        if (!$row = $this->get($rawId)) {
             return true;
         }
 
@@ -181,11 +181,11 @@ class Cart
 
         $this->event->fire('cart.removing', [$row, $cart]);
 
-        $cart->forget($rowId);
+        $cart->forget($rawId);
 
         $this->event->fire('cart.removed', [$row, $cart]);
 
-        $this->syncCart($cart);
+        $this->save($cart);
 
         return true;
     }
@@ -193,13 +193,13 @@ class Cart
     /**
      * Get a row of the cart by its ID
      *
-     * @param string $rowId The ID of the row to fetch
+     * @param string $rawId The ID of the row to fetch
      *
      * @return Item
      */
-    public function get($rowId)
+    public function get($rawId)
     {
-        $row = $this->getCart()->get($rowId);
+        $row = $this->getCart()->get($rawId);
 
         return is_null($row) ? null : new Item($row);
     }
@@ -215,7 +215,7 @@ class Cart
 
         $this->event->fire('cart.destroying', $cart);
 
-        $this->syncCart(null);
+        $this->save(null);
 
         $this->event->fire('cart.destroyed', $cart);
 
@@ -345,12 +345,12 @@ class Cart
 
         $cart = $this->getCart();
 
-        $rowId = $this->generateRawId($id, $attributes);
+        $rawId = $this->generateRawId($id, $attributes);
 
-        if ($row = $cart->get($rowId)) {
-            $row = $this->updateQty($rowId, $row->qty + $qty);
+        if ($row = $cart->get($rawId)) {
+            $row = $this->updateQty($rawId, $row->qty + $qty);
         } else {
-            $row = $this->insertRow($rowId, $id, $name, $qty, $price, $attributes);
+            $row = $this->insertRow($rawId, $id, $name, $qty, $price, $attributes);
         }
 
         return $row;
@@ -378,7 +378,7 @@ class Cart
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function syncCart($cart)
+    protected function save($cart)
     {
         $this->session->put($this->name, $cart);
 
@@ -398,18 +398,18 @@ class Cart
     }
 
     /**
-     * Update a row if the rowId already exists.
+     * Update a row if the rawId already exists.
      *
-     * @param string $rowId      The ID of the row to update
+     * @param string $rawId      The ID of the row to update
      * @param array  $attributes The quantity to add to the row
      *
      * @return Item
      */
-    protected function updateRow($rowId, array $attributes)
+    protected function updateRow($rawId, array $attributes)
     {
         $cart = $this->getCart();
 
-        $row = $cart->get($rowId);
+        $row = $cart->get($rawId);
 
         foreach ($attributes as $key => $value) {
             $row->put($key, $value);
@@ -419,7 +419,7 @@ class Cart
             $row->put('total', $row->qty * $row->price);
         }
 
-        $cart->put($rowId, $row);
+        $cart->put($rawId, $row);
 
         return $row;
     }
@@ -427,7 +427,7 @@ class Cart
     /**
      * Create a new row Object.
      *
-     * @param string $rowId      The ID of the new row
+     * @param string $rawId      The ID of the new row
      * @param string $id         Unique ID of the item
      * @param string $name       Name of the item
      * @param int    $qty        Item qty to add to the cart
@@ -436,15 +436,15 @@ class Cart
      *
      * @return Item
      */
-    protected function insertRow($rowId, $id, $name, $qty, $price, $attributes = [])
+    protected function insertRow($rawId, $id, $name, $qty, $price, $attributes = [])
     {
-        $newRow = $this->makeRow($rowId, $id, $name, $qty, $price, $attributes);
+        $newRow = $this->makeRow($rawId, $id, $name, $qty, $price, $attributes);
 
         $cart = $this->getCart();
 
-        $cart->put($rowId, $newRow);
+        $cart->put($rawId, $newRow);
 
-        $this->syncCart($cart);
+        $this->save($cart);
 
         return $newRow;
     }
@@ -452,7 +452,7 @@ class Cart
     /**
      * Make a row item.
      *
-     * @param string $rowId      Raw id.
+     * @param string $rawId      Raw id.
      * @param mixed  $id         Item id.
      * @param string $name       Item name.
      * @param int    $qty        Quantity.
@@ -461,10 +461,10 @@ class Cart
      *
      * @return Item
      */
-    protected function makeRow($rowId, $id, $name, $qty, $price, array $attributes = [])
+    protected function makeRow($rawId, $id, $name, $qty, $price, array $attributes = [])
     {
         return new Item(array_merge([
-                                     '__raw_id' => $rowId,
+                                     '__raw_id' => $rawId,
                                      'id'       => $id,
                                      'name'     => $name,
                                      'qty'      => $qty,
@@ -477,30 +477,30 @@ class Cart
     /**
      * Update the quantity of a row
      *
-     * @param string $rowId The ID of the row
+     * @param string $rawId The ID of the row
      * @param int    $qty   The qty to add
      *
      * @return Item|boolean
      */
-    protected function updateQty($rowId, $qty)
+    protected function updateQty($rawId, $qty)
     {
         if ($qty <= 0) {
-            return $this->remove($rowId);
+            return $this->remove($rawId);
         }
 
-        return $this->updateRow($rowId, ['qty' => $qty]);
+        return $this->updateRow($rawId, ['qty' => $qty]);
     }
 
     /**
      * Update an attribute of the row
      *
-     * @param string $rowId      The ID of the row
+     * @param string $rawId      The ID of the row
      * @param array  $attributes An array of attributes to update
      *
      * @return Item
      */
-    protected function updateAttribute($rowId, $attributes)
+    protected function updateAttribute($rawId, $attributes)
     {
-        return $this->updateRow($rowId, $attributes);
+        return $this->updateRow($rawId, $attributes);
     }
 }//end class
