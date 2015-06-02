@@ -49,8 +49,6 @@ And add the follow line to the section `aliases`:
 
 Add a new item.
 
-**syntax:**
-
 ```php
 string | null Cart::add(
                     string | int $id,
@@ -80,8 +78,6 @@ $rawId = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']
 
 Update the specified item.
 
-**syntax:**
-
 ```php
 Item Cart::update(string $rawId, int $quantity);
 Item Cart::update(string $rawId, array $arrtibutes);
@@ -99,8 +95,6 @@ Cart::update('8a48aa7c8e5202841ddaf767bb4d10da', 5);
 
 Get all the items.
 
-**syntax:**
-
 ```php
 Collection Cart::all();
 ```
@@ -116,8 +110,6 @@ $items = Cart::all();
 
 Get the specified item.
 
-**syntax:**
-
 ```php
 Item Cart::get(string $rawId);
 ```
@@ -131,8 +123,6 @@ $item = Cart::get('8a48aa7c8e5202841ddaf767bb4d10da');
 ### Remove item
 
 Remove the specified item by raw ID.
-
-**syntax:**
 
 ```php
 boolean Cart::remove(string $rawId);
@@ -148,8 +138,6 @@ Cart::remove('8a48aa7c8e5202841ddaf767bb4d10da');
 
 Empty Shopping Cart.
 
-**syntax:**
-
 ```php
 boolean Cart::destroy(string $rawId);
 ```
@@ -163,8 +151,6 @@ Cart::destroy();
 ### Total price
 
 Returns the total of all items.
-
-**syntax:**
 
 ```php
 int | float Cart::total();
@@ -181,8 +167,6 @@ $total = Cart::total();
 
 Return the number of rows.
 
-**syntax:**
-
 ```php
 int Cart::countRows();
 ```
@@ -197,8 +181,6 @@ $rows = Cart::countRows();
 ### Count quantity
 
 Returns the number of all items
-
-**syntax:**
 
 ```php
 int Cart::count($totalItems = true);
@@ -217,8 +199,6 @@ $rows = Cart::count(false); // same as Cart::countRows();
 
 Search items by property.
 
-**syntax:**
-
 ```php
 Collection Cart::search(array $conditions);
 ```
@@ -234,8 +214,6 @@ $items = Cart::search(['qty' => 10]);
 ### Specifies the associated model
 
 Specifies the associated model of item.
-
-**syntax:**
 
 ```php
 Cart Cart::associate(string $modelName);
