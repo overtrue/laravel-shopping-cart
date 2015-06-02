@@ -11,7 +11,7 @@ Shopping cart for Laravel Application.
 [![Total Downloads](https://poser.pugx.org/overtrue/laravel-shopping-cart/downloads)](https://packagist.org/packages/overtrue/laravel-shopping-cart)
 [![License](https://poser.pugx.org/overtrue/laravel-shopping-cart/license)](https://packagist.org/packages/overtrue/wechat)
 
-## Installation
+# Installation
 
 ```shell
 composer require "overtrue/laravel-shopping-cart:1.0.*"
@@ -43,7 +43,7 @@ And add the follow line to the section `aliases`:
 'Cart'      => 'Overtrue\LaravelShoppingCart\Facade',
 ```
 
-## Usage
+# Usage
 
 ### Add item to cart
 
@@ -231,7 +231,7 @@ $items = Cart::search(['name' => 'Item name']);
 $items = Cart::search(['qty' => 10]);
 ```
 
-## Specifies the associated model
+### Specifies the associated model
 
 Specifies the associated model of item.
 
@@ -251,7 +251,7 @@ $item->product->name; // $item->product is instanceof 'App\Models\Product'
 
 
 
-## the Collection And Item
+# The Collection And Item
 
 `Collection` and `Overtrue\LaravelShoppingCart\Item` are instanceof `Illuminate\Support\Collection`, Usage Refer to：[Collections - Laravel doc.](http://laravel.com/docs/5.0/collections)
 
@@ -269,7 +269,7 @@ And methods:
 
  - `rawId()` - Return the raw ID of item.
 
-## Events
+# Events
 
 | Event Name | Parameters |
 | -------  | ------- |
@@ -290,6 +290,6 @@ Event::on('cart.adding', function($attributes, $cart){
 });
 ```
 
-## License
+# License
 
 MIT
