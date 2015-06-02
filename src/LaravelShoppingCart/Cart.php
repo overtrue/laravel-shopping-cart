@@ -126,7 +126,7 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.add', [$attributes, $cart]);
+        $this->event->fire('cart.adding', [$attributes, $cart]);
 
         $row = $this->addRow($id, $name, $qty, $price, $attributes);
 
@@ -151,7 +151,7 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.update', [$row, $cart]);
+        $this->event->fire('cart.updating', [$row, $cart]);
 
         if (is_array($attribute)) {
             $raw = $this->updateAttribute($rowId, $attribute);
@@ -179,7 +179,7 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.remove', [$row, $cart]);
+        $this->event->fire('cart.removing', [$row, $cart]);
 
         $cart->forget($rowId);
 
@@ -211,11 +211,13 @@ class Cart
      */
     public function destroy()
     {
-        $this->event->fire('cart.destroy', $this->name);
+        $cart = $this->getCart();
+
+        $this->event->fire('cart.destroying', $cart);
 
         $this->syncCart(null);
 
-        $this->event->fire('cart.destroyed', $this->name);
+        $this->event->fire('cart.destroyed', $cart);
 
         return true;
     }

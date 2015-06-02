@@ -269,6 +269,27 @@ And methods:
 
  - `rawId()` - Return the raw ID of item.
 
+## Events
+
+| Event Name | Parameters |
+| -------  | ------- |
+| `cart.adding`  | ($attributes, $cart); |
+| `cart.added`  | ($attributes, $cart); |
+| `cart.updating`  | ($row, $cart); |
+| `cart.updated`  | ($row, $cart); |
+| `cart.removing`  | ($row, $cart); |
+| `cart.removed`  | ($row, $cart); |
+| `cart.destroying`  | ($cart); |
+| `cart.destroyed`  | ($cart); |
+
+You can easily handle these events, for example:
+
+```php
+Event::on('cart.adding', function($attributes, $cart){
+    // code
+});
+```
+
 ## License
 
 MIT
