@@ -29,7 +29,7 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app['cart'] = $this->app->share(function ($app) {
+        $this->app->singleton('cart', function ($app) {
             return new Cart($app['session'], $app['events']);
         });
     }
