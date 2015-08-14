@@ -63,6 +63,16 @@ class CartTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $row->qty);
         $this->assertEquals(100.00, $row->price);
         $this->assertEquals(1000.00, $row->total);
+
+        // https://github.com/overtrue/laravel-shopping-cart/issues/2
+        $this->cart->clean();
+        $this->cart->add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+        $this->cart->add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
+        $this->cart->add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+
+        $this->assertEquals(11, $this->cart->count());
+        $this->assertEquals(1, $this->cart->countRows());
+        $this->assertEquals(1100.00, $this->cart->total());
     }
 
     /**

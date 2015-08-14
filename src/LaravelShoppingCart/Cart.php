@@ -122,8 +122,6 @@ class Cart
      */
     public function add($id, $name = null, $qty = null, $price = null, array $attributes = [])
     {
-        $attributes = array_merge(compact('id', 'name', 'qty', 'price'), $attributes);
-
         $cart = $this->getCart();
 
         $this->event->fire('cart.adding', [$attributes, $cart]);
@@ -223,11 +221,31 @@ class Cart
     }
 
     /**
+     * Alias of destory()
+     *
+     * @return boolean
+     */
+    public function clean()
+    {
+        $this->destroy();
+    }
+
+    /**
      * Get the price total
      *
      * @return float
      */
     public function total()
+    {
+        return $this->totalPrice();
+    }
+
+    /**
+     * Return total price of cart.
+     *
+     * @return
+     */
+    public function totalPrice()
     {
         $total = 0;
 
