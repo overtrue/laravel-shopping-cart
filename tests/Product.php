@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class Product {
+class Product
+{
     protected $attributes;
 
     public function __construct($attributes = [])

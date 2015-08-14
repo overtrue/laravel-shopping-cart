@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Item.php
+ * Item.php.
  *
  * Part of Overtrue\LaravelShoppingCart.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -25,9 +27,8 @@ use Illuminate\Support\Collection;
  */
 class Item extends Collection
 {
-
     /**
-     * The Eloquent model a cart is associated with
+     * The Eloquent model a cart is associated with.
      *
      * @var string
      */
@@ -47,19 +48,19 @@ class Item extends Collection
         }
 
         if (!$this->get('__model')) {
-            return null;
+            return;
         }
 
         $model = $this->get('__model');
         $class = explode('\\', $model);
 
         if (strtolower(end($class)) == $property) {
-            $model = new $model;
+            $model = new $model();
 
             return $model->find($this->id);
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -71,4 +72,4 @@ class Item extends Collection
     {
         return $this->__raw_id;
     }
-}//end class
+}

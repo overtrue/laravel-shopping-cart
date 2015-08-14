@@ -1,6 +1,6 @@
 <?php
-use Mockery as m;
 
+use Mockery as m;
 use Overtrue\LaravelShoppingCart\Cart;
 use Illuminate\Support\Collection;
 
@@ -28,7 +28,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test name()
+     * test name().
      */
     public function testName()
     {
@@ -40,7 +40,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test add()
+     * test add().
      */
     public function testAdd()
     {
@@ -96,7 +96,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test update()
+     * test update().
      */
     public function testUpdate()
     {
@@ -149,7 +149,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test remove()
+     * test remove().
      */
     public function testRemove()
     {
@@ -171,7 +171,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test get()
+     * test get().
      */
     public function testGet()
     {
@@ -188,7 +188,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test all();
+     * test all();.
      */
     public function testAllAndCountAndCountRows()
     {
@@ -215,7 +215,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test total()
+     * test total().
      */
     public function testTotal()
     {
@@ -232,7 +232,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test search()
+     * test search().
      */
     public function testSearch()
     {
@@ -255,7 +255,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test associate()
+     * test associate().
      */
     public function testAssociate()
     {

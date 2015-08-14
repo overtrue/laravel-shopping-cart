@@ -4,7 +4,8 @@ namespace Illuminate\Session;
 
 use Mockery as m;
 
-class SessionManager {
+class SessionManager
+{
     public function __call($method, $args)
     {
         return call_user_func_array(array($this->getSession(), $method), $args);

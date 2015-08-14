@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Cart.php
+ * Cart.php.
  *
  * Part of Overtrue\LaravelShoppingCart.
  *
@@ -11,6 +12,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -26,23 +28,22 @@ use Illuminate\Support\Collection;
  */
 class Cart
 {
-
     /**
-     * Session manager
+     * Session manager.
      *
      * @var \Illuminate\Session\SessionManager
      */
     protected $session;
 
     /**
-     * Event dispatcher
+     * Event dispatcher.
      *
      * @var \Illuminate\Contracts\Events\Dispatcher
      */
     protected $event;
 
     /**
-     * Current cart name
+     * Current cart name.
      *
      * @var string
      */
@@ -64,11 +65,11 @@ class Cart
     public function __construct(SessionManager $session, Dispatcher $event)
     {
         $this->session = $session;
-        $this->event   = $event;
+        $this->event = $event;
     }
 
     /**
-     * Set the current cart name
+     * Set the current cart name.
      *
      * @param string $name Cart name name
      *
@@ -76,7 +77,7 @@ class Cart
      */
     public function name($name)
     {
-        $this->name = 'cart.' . $name;
+        $this->name = 'cart.'.$name;
 
         return $this;
     }
@@ -110,7 +111,7 @@ class Cart
     }
 
     /**
-     * Add a row to the cart
+     * Add a row to the cart.
      *
      * @param int|string $id         Unique ID of the item
      * @param string     $name       Name of the item
@@ -134,12 +135,12 @@ class Cart
     }
 
     /**
-     * Update the quantity of one row of the cart
+     * Update the quantity of one row of the cart.
      *
      * @param string    $rawId     The __raw_id of the item you want to update
      * @param int|array $attribute New quantity of the item|Array of attributes to update
      *
-     * @return Item|boolean
+     * @return Item|bool
      */
     public function update($rawId, $attribute)
     {
@@ -163,11 +164,11 @@ class Cart
     }
 
     /**
-     * Remove a row from the cart
+     * Remove a row from the cart.
      *
      * @param string $rawId The __raw_id of the item
      *
-     * @return boolean
+     * @return bool
      */
     public function remove($rawId)
     {
@@ -189,7 +190,7 @@ class Cart
     }
 
     /**
-     * Get a row of the cart by its ID
+     * Get a row of the cart by its ID.
      *
      * @param string $rawId The ID of the row to fetch
      *
@@ -203,9 +204,9 @@ class Cart
     }
 
     /**
-     * Clean the cart
+     * Clean the cart.
      *
-     * @return boolean
+     * @return bool
      */
     public function destroy()
     {
@@ -221,9 +222,9 @@ class Cart
     }
 
     /**
-     * Alias of destory()
+     * Alias of destory().
      *
-     * @return boolean
+     * @return bool
      */
     public function clean()
     {
@@ -231,7 +232,7 @@ class Cart
     }
 
     /**
-     * Get the price total
+     * Get the price total.
      *
      * @return float
      */
@@ -263,9 +264,9 @@ class Cart
     }
 
     /**
-     * Get the number of items in the cart
+     * Get the number of items in the cart.
      *
-     * @param boolean $totalItems Get all the items (when false, will return the number of rows)
+     * @param bool $totalItems Get all the items (when false, will return the number of rows)
      *
      * @return int
      */
@@ -287,7 +288,7 @@ class Cart
     }
 
     /**
-     * Get rows count
+     * Get rows count.
      *
      * @return int
      */
@@ -297,7 +298,7 @@ class Cart
     }
 
     /**
-     * Search if the cart has a item
+     * Search if the cart has a item.
      *
      * @param array $search An array with the item ID and optional options
      *
@@ -331,7 +332,7 @@ class Cart
     }
 
     /**
-     * Get current associated model
+     * Get current associated model.
      *
      * @return string
      */
@@ -341,7 +342,7 @@ class Cart
     }
 
     /**
-     * Add row to the cart
+     * Add row to the cart.
      *
      * @param string $id         Unique ID of the item
      * @param string $name       Name of the item
@@ -375,7 +376,7 @@ class Cart
     }
 
     /**
-     * Generate a unique id for the new row
+     * Generate a unique id for the new row.
      *
      * @param string $id         Unique ID of the item
      * @param array  $attributes Array of additional options, such as 'size' or 'color'
@@ -386,7 +387,7 @@ class Cart
     {
         ksort($attributes);
 
-        return md5($id . serialize($attributes));
+        return md5($id.serialize($attributes));
     }
 
     /**
@@ -483,22 +484,22 @@ class Cart
     {
         return new Item(array_merge([
                                      '__raw_id' => $rawId,
-                                     'id'       => $id,
-                                     'name'     => $name,
-                                     'qty'      => $qty,
-                                     'price'    => $price,
-                                     'total'    => $qty * $price,
-                                     '__model'  => $this->model,
+                                     'id' => $id,
+                                     'name' => $name,
+                                     'qty' => $qty,
+                                     'price' => $price,
+                                     'total' => $qty * $price,
+                                     '__model' => $this->model,
                                     ], $attributes));
     }
 
     /**
-     * Update the quantity of a row
+     * Update the quantity of a row.
      *
      * @param string $rawId The ID of the row
      * @param int    $qty   The qty to add
      *
-     * @return Item|boolean
+     * @return Item|bool
      */
     protected function updateQty($rawId, $qty)
     {
@@ -510,7 +511,7 @@ class Cart
     }
 
     /**
-     * Update an attribute of the row
+     * Update an attribute of the row.
      *
      * @param string $rawId      The ID of the row
      * @param array  $attributes An array of attributes to update
@@ -521,4 +522,4 @@ class Cart
     {
         return $this->updateRow($rawId, $attributes);
     }
-}//end class
+}
