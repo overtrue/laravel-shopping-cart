@@ -136,16 +136,17 @@ Cart::remove('8a48aa7c8e5202841ddaf767bb4d10da');
 
 ### Destroy cart
 
-Empty Shopping Cart.
+Clean Shopping Cart.
 
 ```php
-boolean Cart::destroy(string $rawId);
+boolean Cart::destroy();
+boolean Cart::clean(); // alias of destroy();
 ```
 
 **example:**
 
 ```php
-Cart::destroy();
+Cart::destroy();// or Cart::clean();
 ```
 
 ### Total price
@@ -153,13 +154,16 @@ Cart::destroy();
 Returns the total of all items.
 
 ```php
-int | float Cart::total();
+int | float Cart::total(); // alias of totalPrice();
+int | float Cart::totalPrice();
 ```
 
 **example:**
 
 ```php
 $total = Cart::total();
+// or
+$total = Cart::totalPrice();
 ```
 
 
@@ -174,13 +178,17 @@ int Cart::countRows();
 **example:**
 
 ```php
-$rows = Cart::countRows();
+Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+Cart::add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
+Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+Cart::add(127, 'foobar', 15, 100.00, ['color' => 'green', 'size' => 'S']);
+$rows = Cart::countRows(); // 2
 ```
 
 
 ### Count quantity
 
-Returns the number of all items
+Returns the quantity of all items
 
 ```php
 int Cart::count($totalItems = true);
@@ -191,8 +199,10 @@ int Cart::count($totalItems = true);
 **example:**
 
 ```php
-$count = Cart::count();
-$rows = Cart::count(false); // same as Cart::countRows();
+Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+Cart::add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
+Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+$count = Cart::count(); // 11 (5+1+5)
 ```
 
 ### Search items
@@ -228,7 +238,6 @@ $item->product->name; // $item->product is instanceof 'App\Models\Product'
 ```
 
 
-
 # The Collection And Item
 
 `Collection` and `Overtrue\LaravelShoppingCart\Item` are instanceof `Illuminate\Support\Collection`, Usage Refer to：[Collections - Laravel doc.](http://laravel.com/docs/5.0/collections)
@@ -242,6 +251,7 @@ properties of `Overtrue\LaravelShoppingCart\Item`:
 - `total`    - Total price of item.
 - `__raw_id` - Unique ID of row.
 - `__model`  - Name of item associated Model.
+- ... custom attributes.
 
 And methods:
 
