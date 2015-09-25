@@ -50,7 +50,7 @@ And add the follow line to the section `aliases`:
 Add a new item.
 
 ```php
-string | null Cart::add(
+Item | null Cart::add(
                     string | int $id,
                     string $name,
                     int $quantity,
@@ -62,7 +62,7 @@ string | null Cart::add(
 **example:**
 
 ```php
-$rawId = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+$row = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
 // Item:
 //    id       => 37
 //    name     => 'Item name'
@@ -72,6 +72,9 @@ $rawId = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']
 //    size     => 'M'
 //    total    => 500.00
 //    __raw_id => '8a48aa7c8e5202841ddaf767bb4d10da'
+$rawId = $row->rawId();// get __raw_id
+$row->qty; // 5
+...
 ```
 
 ### Update item
