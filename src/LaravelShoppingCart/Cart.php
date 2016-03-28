@@ -91,11 +91,10 @@ class Cart
      */
     public function associate($model)
     {
-        $this->model = $model;
-
         if (!class_exists($model)) {
             throw new Exception("Invalid model name '$model'.");
         }
+        $this->model = $model;
 
         return $this;
     }
