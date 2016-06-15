@@ -2,12 +2,10 @@
     "name": "overtrue/laravel-shopping-cart",
     "description": "Shopping cart for Laravel Application.",
     "keywords": [
-        "shoppingcart",
+        "shopping cart",
         "shopping",
         "laravel"
     ],
-    "license": "MIT",
-
     "authors": [
         {
             "name": "overtrue",
@@ -19,10 +17,10 @@
         "phpunit/phpunit": "~4.0",
         "illuminate/session": "5.0.*"
     },
-    "minimum-stability" : "dev",
     "autoload": {
         "psr-4": {
             "Overtrue\\LaravelShoppingCart\\": "src/LaravelShoppingCart/"
         }
-    }
+    },
+    "license": "MIT"
 }

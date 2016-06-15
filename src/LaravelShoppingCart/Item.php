@@ -1,18 +1,9 @@
 <?php
 
-/**
- * Item.php.
+/*
+ * This file is part of the overtrue/laravel-shopping-cart.
  *
- * Part of Overtrue\LaravelShoppingCart.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * (c) 2016 overtrue <i@overtrue.me>
  */
 
 namespace Overtrue\LaravelShoppingCart;
@@ -54,7 +45,7 @@ class Item extends Collection
         $model = $this->get('__model');
         $class = explode('\\', $model);
 
-        if (strtolower(end($class)) == $property) {
+        if (strtolower(end($class)) === $property) {
             $model = new $model();
 
             return $model->find($this->id);
