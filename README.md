@@ -14,7 +14,7 @@ Shopping cart for Laravel Application.
 # Installation
 
 ```shell
-composer require "overtrue/laravel-shopping-cart:1.0.*"
+$ composer require "overtrue/laravel-shopping-cart:1.0.*"
 ```
 
   or add the following line to your project's `composer.json`:
@@ -28,19 +28,19 @@ composer require "overtrue/laravel-shopping-cart:1.0.*"
 then
 
 ```shell
-composer update
+$ composer update
 ```
 
 After completion of the above, add the follow line to the section `providers` of `config/app.php`:
 
 ```php
-'Overtrue\LaravelShoppingCart\ServiceProvider',
+Overtrue\LaravelShoppingCart\ServiceProvider::class,
 ```
 
 And add the follow line to the section `aliases`:
 
 ```php
-'Cart'      => 'Overtrue\LaravelShoppingCart\Facade',
+'Cart'      => Overtrue\LaravelShoppingCart\Facade::class,
 ```
 
 # Usage
