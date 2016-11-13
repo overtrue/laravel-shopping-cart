@@ -209,8 +209,11 @@ class CartTest extends PHPUnit_Framework_TestCase
         $this->cart->remove($row1->rawId(), 0);
         $this->assertEquals(1, $this->cart->countRows());
 
+        $this->assertFalse($this->cart->isEmpty());
+
         $this->cart->destroy();
 
+        $this->assertTrue($this->cart->isEmpty());
         $this->assertEquals(0, $this->cart->all()->count());
     }
 
