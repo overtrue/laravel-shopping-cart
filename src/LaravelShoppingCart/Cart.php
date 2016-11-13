@@ -330,6 +330,16 @@ class Cart
     }
 
     /**
+     * Return whether the shopping cart is empty.
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->count() <= 0;
+    }
+
+    /**
      * Add row to the cart.
      *
      * @param string $id         Unique ID of the item

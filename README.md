@@ -224,6 +224,12 @@ $items = Cart::search(['name' => 'Item name']);
 $items = Cart::search(['qty' => 10]);
 ```
 
+### Check empty
+
+```php
+bool Cart::isEmpty();
+```
+
 ### Specifies the associated model
 
 Specifies the associated model of item.
