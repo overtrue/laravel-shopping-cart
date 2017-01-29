@@ -35,9 +35,11 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function register()
     {
-        $this->app->singleton([Cart::class => 'cart'], function ($app) {
+        $this->app->singleton(Cart::class, function ($app) {
             return new Cart($app['session'], $app['events']);
         });
+
+        $this->app->alias(Cart::class, 'cart');
     }
 
     /**
