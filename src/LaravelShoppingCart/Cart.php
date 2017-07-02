@@ -36,7 +36,7 @@ class Cart
      *
      * @var string
      */
-    protected $name = 'cart.default';
+    protected $name = 'shopping_cart.default';
 
     /**
      * Associated model name.
@@ -66,7 +66,7 @@ class Cart
      */
     public function name($name)
     {
-        $this->name = 'cart.'.$name;
+        $this->name = 'shopping_cart.'.$name;
 
         return $this;
     }
@@ -113,11 +113,11 @@ class Cart
     {
         $cart = $this->getCart();
 
-        $this->event->fire('cart.adding', [$attributes, $cart]);
+        $this->event->fire('shopping_cart.adding', [$attributes, $cart]);
 
         $row = $this->addRow($id, $name, $qty, $price, $attributes);
 
-        $this->event->fire('cart.added', [$attributes, $cart]);
+        $this->event->fire('shopping_cart.added', [$attributes, $cart]);
 
         return $row;
     }
@@ -138,7 +138,7 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.updating', [$row, $cart]);
+        $this->event->fire('shopping_cart.updating', [$row, $cart]);
 
         if (is_array($attribute)) {
             $raw = $this->updateAttribute($rawId, $attribute);
@@ -146,7 +146,7 @@ class Cart
             $raw = $this->updateQty($rawId, $attribute);
         }
 
-        $this->event->fire('cart.updated', [$row, $cart]);
+        $this->event->fire('shopping_cart.updated', [$row, $cart]);
 
         return $raw;
     }
@@ -166,11 +166,11 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('cart.removing', [$row, $cart]);
+        $this->event->fire('shopping_cart.removing', [$row, $cart]);
 
         $cart->forget($rawId);
 
-        $this->event->fire('cart.removed', [$row, $cart]);
+        $this->event->fire('shopping_cart.removed', [$row, $cart]);
 
         $this->save($cart);
 
@@ -200,11 +200,11 @@ class Cart
     {
         $cart = $this->getCart();
 
-        $this->event->fire('cart.destroying', $cart);
+        $this->event->fire('shopping_cart.destroying', $cart);
 
         $this->save(null);
 
-        $this->event->fire('cart.destroyed', $cart);
+        $this->event->fire('shopping_cart.destroyed', $cart);
 
         return true;
     }

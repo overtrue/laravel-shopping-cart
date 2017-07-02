@@ -39,7 +39,7 @@ class ServiceProvider extends LaravelServiceProvider
             return new Cart($app['session'], $app['events']);
         });
 
-        $this->app->alias(Cart::class, 'cart');
+        $this->app->alias(Cart::class, 'shopping_cart');
     }
 
     /**
@@ -49,6 +49,6 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function provides()
     {
-        return [Cart::class, 'cart'];
+        return [Cart::class, 'shopping_cart'];
     }
 }

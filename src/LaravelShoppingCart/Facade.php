@@ -22,6 +22,6 @@ class Facade extends LaravelFacade
      */
     protected static function getFacadeAccessor()
     {
-        return 'cart';
+        return Cart::class;
     }
 }

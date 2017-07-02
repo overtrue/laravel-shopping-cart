@@ -25,5 +25,15 @@
             "Overtrue\\LaravelShoppingCart\\": "src/LaravelShoppingCart/"
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Overtrue\\LaravelShoppingCart\\ServiceProvider"
+            ],
+            "aliases": {
+                "ShoppingCart": "Overtrue\\LaravelShoppingCart\\Facade"
+            }
+        }
+    }
 }

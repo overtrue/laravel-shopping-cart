@@ -40,7 +40,7 @@ Overtrue\LaravelShoppingCart\ServiceProvider::class,
 And add the follow line to the section `aliases`:
 
 ```php
-'Cart'      => Overtrue\LaravelShoppingCart\Facade::class,
+'ShoppingCart'      => Overtrue\LaravelShoppingCart\Facade::class,
 ```
 
 # Usage
@@ -50,7 +50,7 @@ And add the follow line to the section `aliases`:
 Add a new item.
 
 ```php
-Item | null Cart::add(
+Item | null ShoppingCart::add(
                     string | int $id,
                     string $name,
                     int $quantity,
@@ -62,7 +62,7 @@ Item | null Cart::add(
 **example:**
 
 ```php
-$row = Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+$row = ShoppingCart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
 // Item:
 //    id       => 37
 //    name     => 'Item name'
@@ -82,16 +82,16 @@ $row->qty; // 5
 Update the specified item.
 
 ```php
-Item Cart::update(string $rawId, int $quantity);
-Item Cart::update(string $rawId, array $arrtibutes);
+Item ShoppingCart::update(string $rawId, int $quantity);
+Item ShoppingCart::update(string $rawId, array $arrtibutes);
 ```
 
 **example:**
 
 ```php
-Cart::update('8a48aa7c8e5202841ddaf767bb4d10da', ['name' => 'New item name');
+ShoppingCart::update('8a48aa7c8e5202841ddaf767bb4d10da', ['name' => 'New item name');
 // or only update quantity
-Cart::update('8a48aa7c8e5202841ddaf767bb4d10da', 5);
+ShoppingCart::update('8a48aa7c8e5202841ddaf767bb4d10da', 5);
 ```
 
 ### Get all items
@@ -99,13 +99,13 @@ Cart::update('8a48aa7c8e5202841ddaf767bb4d10da', 5);
 Get all the items.
 
 ```php
-Collection Cart::all();
+Collection ShoppingCart::all();
 ```
 
 **example:**
 
 ```php
-$items = Cart::all();
+$items = ShoppingCart::all();
 ```
 
 
@@ -114,13 +114,13 @@ $items = Cart::all();
 Get the specified item.
 
 ```php
-Item Cart::get(string $rawId);
+Item ShoppingCart::get(string $rawId);
 ```
 
 **example:**
 
 ```php
-$item = Cart::get('8a48aa7c8e5202841ddaf767bb4d10da');
+$item = ShoppingCart::get('8a48aa7c8e5202841ddaf767bb4d10da');
 ```
 
 ### Remove item
@@ -128,13 +128,13 @@ $item = Cart::get('8a48aa7c8e5202841ddaf767bb4d10da');
 Remove the specified item by raw ID.
 
 ```php
-boolean Cart::remove(string $rawId);
+boolean ShoppingCart::remove(string $rawId);
 ```
 
 **example:**
 
 ```php
-Cart::remove('8a48aa7c8e5202841ddaf767bb4d10da');
+ShoppingCart::remove('8a48aa7c8e5202841ddaf767bb4d10da');
 ```
 
 ### Destroy cart
@@ -142,14 +142,14 @@ Cart::remove('8a48aa7c8e5202841ddaf767bb4d10da');
 Clean Shopping Cart.
 
 ```php
-boolean Cart::destroy();
-boolean Cart::clean(); // alias of destroy();
+boolean ShoppingCart::destroy();
+boolean ShoppingCart::clean(); // alias of destroy();
 ```
 
 **example:**
 
 ```php
-Cart::destroy();// or Cart::clean();
+ShoppingCart::destroy();// or ShoppingCart::clean();
 ```
 
 ### Total price
@@ -157,16 +157,16 @@ Cart::destroy();// or Cart::clean();
 Returns the total of all items.
 
 ```php
-int | float Cart::total(); // alias of totalPrice();
-int | float Cart::totalPrice();
+int | float ShoppingCart::total(); // alias of totalPrice();
+int | float ShoppingCart::totalPrice();
 ```
 
 **example:**
 
 ```php
-$total = Cart::total();
+$total = ShoppingCart::total();
 // or
-$total = Cart::totalPrice();
+$total = ShoppingCart::totalPrice();
 ```
 
 
@@ -175,17 +175,17 @@ $total = Cart::totalPrice();
 Return the number of rows.
 
 ```php
-int Cart::countRows();
+int ShoppingCart::countRows();
 ```
 
 **example:**
 
 ```php
-Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
-Cart::add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
-Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
-Cart::add(127, 'foobar', 15, 100.00, ['color' => 'green', 'size' => 'S']);
-$rows = Cart::countRows(); // 2
+ShoppingCart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+ShoppingCart::add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
+ShoppingCart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+ShoppingCart::add(127, 'foobar', 15, 100.00, ['color' => 'green', 'size' => 'S']);
+$rows = ShoppingCart::countRows(); // 2
 ```
 
 
@@ -194,7 +194,7 @@ $rows = Cart::countRows(); // 2
 Returns the quantity of all items
 
 ```php
-int Cart::count($totalItems = true);
+int ShoppingCart::count($totalItems = true);
 ```
 
 `$totalItems` : When `false`,will return the number of rows.
@@ -202,10 +202,10 @@ int Cart::count($totalItems = true);
 **example:**
 
 ```php
-Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
-Cart::add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
-Cart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
-$count = Cart::count(); // 11 (5+1+5)
+ShoppingCart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+ShoppingCart::add(37, 'Item name', 1, 100.00, ['color' => 'red', 'size' => 'M']);
+ShoppingCart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+$count = ShoppingCart::count(); // 11 (5+1+5)
 ```
 
 ### Search items
@@ -213,21 +213,21 @@ $count = Cart::count(); // 11 (5+1+5)
 Search items by property.
 
 ```php
-Collection Cart::search(array $conditions);
+Collection ShoppingCart::search(array $conditions);
 ```
 
 **example:**
 
 ```php
-$items = Cart::search(['color' => 'red']);
-$items = Cart::search(['name' => 'Item name']);
-$items = Cart::search(['qty' => 10]);
+$items = ShoppingCart::search(['color' => 'red']);
+$items = ShoppingCart::search(['name' => 'Item name']);
+$items = ShoppingCart::search(['qty' => 10]);
 ```
 
 ### Check empty
 
 ```php
-bool Cart::isEmpty();
+bool ShoppingCart::isEmpty();
 ```
 
 ### Specifies the associated model
@@ -235,14 +235,14 @@ bool Cart::isEmpty();
 Specifies the associated model of item.
 
 ```php
-Cart Cart::associate(string $modelName);
+Cart ShoppingCart::associate(string $modelName);
 ```
 
 **example:**
 
 ```php
-Cart::associate('App\Models\Product');
-$item = Cart::get('8a48aa7c8e5202841ddaf767bb4d10da');
+ShoppingCart::associate('App\Models\Product');
+$item = ShoppingCart::get('8a48aa7c8e5202841ddaf767bb4d10da');
 $item->product->name; // $item->product is instanceof 'App\Models\Product'
 ```
 
@@ -270,19 +270,19 @@ And methods:
 
 | Event Name | Parameters |
 | -------  | ------- |
-| `cart.adding`  | ($attributes, $cart); |
-| `cart.added`  | ($attributes, $cart); |
-| `cart.updating`  | ($row, $cart); |
-| `cart.updated`  | ($row, $cart); |
-| `cart.removing`  | ($row, $cart); |
-| `cart.removed`  | ($row, $cart); |
-| `cart.destroying`  | ($cart); |
-| `cart.destroyed`  | ($cart); |
+| `shopping_cart.adding`  | ($attributes, $cart); |
+| `shopping_cart.added`  | ($attributes, $cart); |
+| `shopping_cart.updating`  | ($row, $cart); |
+| `shopping_cart.updated`  | ($row, $cart); |
+| `shopping_cart.removing`  | ($row, $cart); |
+| `shopping_cart.removed`  | ($row, $cart); |
+| `shopping_cart.destroying`  | ($cart); |
+| `shopping_cart.destroyed`  | ($cart); |
 
 You can easily handle these events, for example:
 
 ```php
-Event::on('cart.adding', function($attributes, $cart){
+Event::on('shopping_cart.adding', function($attributes, $cart){
     // code
 });
 ```
