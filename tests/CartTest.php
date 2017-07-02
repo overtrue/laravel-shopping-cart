@@ -32,11 +32,11 @@ class CartTest extends PHPUnit_Framework_TestCase
      */
     public function testName()
     {
-        $this->assertEquals('cart.default', $this->cart->getName());
+        $this->assertEquals('shopping_cart.default', $this->cart->getName());
 
         $this->cart->name('overtrue');
 
-        $this->assertEquals('cart.overtrue', $this->cart->getName());
+        $this->assertEquals('shopping_cart.overtrue', $this->cart->getName());
     }
 
     /**
