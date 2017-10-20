@@ -89,7 +89,7 @@ Item ShoppingCart::update(string $rawId, array $arrtibutes);
 **example:**
 
 ```php
-ShoppingCart::update('8a48aa7c8e5202841ddaf767bb4d10da', ['name' => 'New item name');
+ShoppingCart::update('8a48aa7c8e5202841ddaf767bb4d10da', ['name' => 'New item name']);
 // or only update quantity
 ShoppingCart::update('8a48aa7c8e5202841ddaf767bb4d10da', 5);
 ```
