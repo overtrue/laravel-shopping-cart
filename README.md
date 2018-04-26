@@ -282,7 +282,7 @@ And methods:
 You can easily handle these events, for example:
 
 ```php
-Event::on('shopping_cart.adding', function($attributes, $cart){
+Event::listen('shopping_cart.adding', function($attributes, $cart){
     // code
 });
 ```

@@ -66,7 +66,7 @@ class Cart
      */
     public function name($name)
     {
-        $this->name = 'shopping_cart.'.$name;
+        $this->name = 'shopping_cart.' . $name;
 
         return $this;
     }
@@ -116,6 +116,8 @@ class Cart
         $this->event->fire('shopping_cart.adding', [$attributes, $cart]);
 
         $row = $this->addRow($id, $name, $qty, $price, $attributes);
+
+        $cart = $this->getCart();
 
         $this->event->fire('shopping_cart.added', [$attributes, $cart]);
 
@@ -385,7 +387,7 @@ class Cart
     {
         ksort($attributes);
 
-        return md5($id.serialize($attributes));
+        return md5($id . serialize($attributes));
     }
 
     /**
