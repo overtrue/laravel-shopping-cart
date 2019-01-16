@@ -232,7 +232,7 @@ bool ShoppingCart::isEmpty();
 
 ### Specifies the associated model
 
-Specifies the associated model of item before you add items to card.
+Specifies the associated model of item before you add items to cart.
 
 ```php
 Cart ShoppingCart::associate(string $modelName);
