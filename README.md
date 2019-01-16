@@ -232,7 +232,7 @@ bool ShoppingCart::isEmpty();
 
 ### Specifies the associated model
 
-Specifies the associated model of item.
+Specifies the associated model of item before you add items to card.
 
 ```php
 Cart ShoppingCart::associate(string $modelName);
@@ -242,6 +242,9 @@ Cart ShoppingCart::associate(string $modelName);
 
 ```php
 ShoppingCart::associate('App\Models\Product');
+
+ShoppingCart::add(37, 'Item name', 5, 100.00, ['color' => 'red', 'size' => 'M']);
+
 $item = ShoppingCart::get('8a48aa7c8e5202841ddaf767bb4d10da');
 $item->product->name; // $item->product is instanceof 'App\Models\Product'
 ```
