@@ -28,7 +28,7 @@ class Item extends Collection
     /**
      * Magic accessor.
      *
-     * @param string $property Property name.
+     * @param string $property property name
      *
      * @return mixed
      */

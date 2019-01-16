@@ -78,7 +78,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     /**
      * test add() with bad quantity.
      *
-     * @expectedException Overtrue\LaravelShoppingCart\Exception
+     * @expectedException \Overtrue\LaravelShoppingCart\Exception
      */
     public function testAddBadQty()
     {
@@ -88,7 +88,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     /**
      * test add() with bad price.
      *
-     * @expectedException Overtrue\LaravelShoppingCart\Exception
+     * @expectedException \Overtrue\LaravelShoppingCart\Exception
      */
     public function testAddBadPrice()
     {
@@ -141,7 +141,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     /**
      * test update() with non-exists raw id.
      *
-     * @expectedException Overtrue\LaravelShoppingCart\Exception
+     * @expectedException \Overtrue\LaravelShoppingCart\Exception
      */
     public function testUpdateBadRawId()
     {
@@ -266,7 +266,7 @@ class CartTest extends PHPUnit_Framework_TestCase
 
         $row1 = $this->cart->add(14, 'foo', 5, 10.00);
 
-        $this->assertNull($row1->foobar);// non-exists
+        $this->assertNull($row1->foobar); // non-exists
 
         $this->cart->associate('App\Models\Product');
 
@@ -281,7 +281,7 @@ class CartTest extends PHPUnit_Framework_TestCase
     /**
      * test associate() with non-exists model name.
      *
-     * @expectedException Overtrue\LaravelShoppingCart\Exception
+     * @expectedException \Overtrue\LaravelShoppingCart\Exception
      */
     public function testBadModelName()
     {
