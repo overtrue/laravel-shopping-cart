@@ -66,7 +66,7 @@ class Cart
      */
     public function name($name)
     {
-        $this->name = 'shopping_cart.' . $name;
+        $this->name = 'shopping_cart.'.$name;
 
         return $this;
     }
@@ -387,7 +387,7 @@ class Cart
     {
         ksort($attributes);
 
-        return md5($id . serialize($attributes));
+        return md5($id.serialize($attributes));
     }
 
     /**
@@ -471,12 +471,12 @@ class Cart
     /**
      * Make a row item.
      *
-     * @param string $rawId      Raw id.
-     * @param mixed  $id         Item id.
-     * @param string $name       Item name.
-     * @param int    $qty        Quantity.
-     * @param float  $price      Price.
-     * @param array  $attributes Other attributes.
+     * @param string $rawId      raw id
+     * @param mixed  $id         item id
+     * @param string $name       item name
+     * @param int    $qty        quantity
+     * @param float  $price      price
+     * @param array  $attributes other attributes
      *
      * @return Item
      */
