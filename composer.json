@@ -18,7 +18,7 @@
     "require-dev": {
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.0",
-        "illuminate/session": "5.0.*"
+        "illuminate/session": "5.8.*"
     },
     "autoload": {
         "psr-4": {
