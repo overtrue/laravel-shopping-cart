@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "mockery/mockery": "~1.2",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~7.5",
         "illuminate/session": "5.8.*"
     },
     "autoload": {
