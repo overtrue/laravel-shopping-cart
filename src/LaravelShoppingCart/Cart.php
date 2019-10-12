@@ -54,7 +54,7 @@ class Cart
     public function __construct(SessionManager $session, Dispatcher $event)
     {
         $this->session = $session;
-        $this->event   = $event;
+        $this->event = $event;
     }
 
     public function dispatchEvent($event, $payload = [], $halt = false)
@@ -75,7 +75,7 @@ class Cart
      */
     public function name($name)
     {
-        $this->name = 'shopping_cart.' . $name;
+        $this->name = 'shopping_cart.'.$name;
 
         return $this;
     }
@@ -199,7 +199,7 @@ class Cart
     {
         $row = $this->getCart()->get($rawId);
 
-        return $row === null ? null : new Item($row);
+        return null === $row ? null : new Item($row);
     }
 
     /**
@@ -396,7 +396,7 @@ class Cart
     {
         ksort($attributes);
 
-        return md5($id . serialize($attributes));
+        return md5($id.serialize($attributes));
     }
 
     /**
@@ -493,12 +493,12 @@ class Cart
     {
         return new Item(array_merge([
             '__raw_id' => $rawId,
-            'id'       => $id,
-            'name'     => $name,
-            'qty'      => $qty,
-            'price'    => $price,
-            'total'    => $qty * $price,
-            '__model'  => $this->model,
+            'id' => $id,
+            'name' => $name,
+            'qty' => $qty,
+            'price' => $price,
+            'total' => $qty * $price,
+            '__model' => $this->model,
         ], $attributes));
     }
 
