@@ -60,10 +60,10 @@ class Cart
     public function dispatchEvent($event, $payload = [], $halt = false)
     {
         if (method_exists($this->event, 'fire')) {
-            $this->event->fire($event, $payload, $halt);
-        } else {
-            $this->event->dispatch($event, $payload, $halt);
+            return $this->event->fire($event, $payload, $halt);
         }
+
+        return $this->event->dispatch($event, $payload, $halt);
     }
 
     /**
