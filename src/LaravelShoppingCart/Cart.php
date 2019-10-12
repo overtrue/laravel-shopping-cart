@@ -54,7 +54,16 @@ class Cart
     public function __construct(SessionManager $session, Dispatcher $event)
     {
         $this->session = $session;
-        $this->event = $event;
+        $this->event   = $event;
+    }
+
+    public function dispatchEvent($event, $payload = [], $halt = false)
+    {
+        if (method_exists($this->event, 'fire')) {
+            return $this->event->fire($event, $payload, $halt);
+        }
+
+        return $this->event->dispatch($event, $payload, $halt);
     }
 
     /**
@@ -66,7 +75,7 @@ class Cart
      */
     public function name($name)
     {
-        $this->name = 'shopping_cart.'.$name;
+        $this->name = 'shopping_cart.' . $name;
 
         return $this;
     }
@@ -113,13 +122,13 @@ class Cart
     {
         $cart = $this->getCart();
 
-        $this->event->fire('shopping_cart.adding', [$attributes, $cart]);
+        $this->dispatchEvent('shopping_cart.adding', [$attributes, $cart]);
 
         $row = $this->addRow($id, $name, $qty, $price, $attributes);
 
         $cart = $this->getCart();
 
-        $this->event->fire('shopping_cart.added', [$attributes, $cart]);
+        $this->dispatchEvent('shopping_cart.added', [$attributes, $cart]);
 
         return $row;
     }
@@ -140,7 +149,7 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('shopping_cart.updating', [$row, $cart]);
+        $this->dispatchEvent('shopping_cart.updating', [$row, $cart]);
 
         if (is_array($attribute)) {
             $raw = $this->updateAttribute($rawId, $attribute);
@@ -148,7 +157,7 @@ class Cart
             $raw = $this->updateQty($rawId, $attribute);
         }
 
-        $this->event->fire('shopping_cart.updated', [$row, $cart]);
+        $this->dispatchEvent('shopping_cart.updated', [$row, $cart]);
 
         return $raw;
     }
@@ -168,11 +177,11 @@ class Cart
 
         $cart = $this->getCart();
 
-        $this->event->fire('shopping_cart.removing', [$row, $cart]);
+        $this->dispatchEvent('shopping_cart.removing', [$row, $cart]);
 
         $cart->forget($rawId);
 
-        $this->event->fire('shopping_cart.removed', [$row, $cart]);
+        $this->dispatchEvent('shopping_cart.removed', [$row, $cart]);
 
         $this->save($cart);
 
@@ -190,7 +199,7 @@ class Cart
     {
         $row = $this->getCart()->get($rawId);
 
-        return is_null($row) ? null : new Item($row);
+        return $row === null ? null : new Item($row);
     }
 
     /**
@@ -202,11 +211,11 @@ class Cart
     {
         $cart = $this->getCart();
 
-        $this->event->fire('shopping_cart.destroying', $cart);
+        $this->dispatchEvent('shopping_cart.destroying', $cart);
 
         $this->save(null);
 
-        $this->event->fire('shopping_cart.destroyed', $cart);
+        $this->dispatchEvent('shopping_cart.destroyed', $cart);
 
         return true;
     }
@@ -292,7 +301,7 @@ class Cart
      *
      * @param array $search An array with the item ID and optional options
      *
-     * @return array
+     * @return array|Collection
      */
     public function search(array $search)
     {
@@ -387,7 +396,7 @@ class Cart
     {
         ksort($attributes);
 
-        return md5($id.serialize($attributes));
+        return md5($id . serialize($attributes));
     }
 
     /**
@@ -483,14 +492,14 @@ class Cart
     protected function makeRow($rawId, $id, $name, $qty, $price, array $attributes = [])
     {
         return new Item(array_merge([
-                                     '__raw_id' => $rawId,
-                                     'id' => $id,
-                                     'name' => $name,
-                                     'qty' => $qty,
-                                     'price' => $price,
-                                     'total' => $qty * $price,
-                                     '__model' => $this->model,
-                                    ], $attributes));
+            '__raw_id' => $rawId,
+            'id'       => $id,
+            'name'     => $name,
+            'qty'      => $qty,
+            'price'    => $price,
+            'total'    => $qty * $price,
+            '__model'  => $this->model,
+        ], $attributes));
     }
 
     /**
